@@ -16,7 +16,7 @@ class AuthGradientButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
