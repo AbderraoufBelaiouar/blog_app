@@ -1,7 +1,10 @@
 import 'package:blog_app_revision/core/theme/app_pallete.dart';
+import 'package:blog_app_revision/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app_revision/features/auth/presentation/views/sign_in_view.dart';
 import 'package:blog_app_revision/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:blog_app_revision/features/auth/presentation/widgets/auth_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -18,6 +21,7 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         child: Column(
@@ -45,26 +49,47 @@ class _SignUpViewState extends State<SignUpView> {
                   Authfield(
                     controller: _passwordController,
                     hintText: 'Password',
+                    obscureText: true,
                   ),
                 ],
               ),
             ),
             AuthGradientButton(
               text: 'Sign Up',
-              onTap: () {},
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  context.read<AuthBloc>().add(AuthSignUp(
+                        name: _nameController.text.trim(),
+                        email: _emailController.text.trim(),
+                        password: _passwordController.text.trim(),
+                      ));
+                }
+              },
             ),
-            RichText(
-              text: TextSpan(
-                text: 'Already have An Account? ',
-                style: Theme.of(context).textTheme.titleMedium,
-                children: [
-                  TextSpan(
-                    text: 'Sign In',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppPallete.gradient2,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignInView();
+                    },
+                  ),
+                );
+              },
+              child: RichText(
+                text: TextSpan(
+                  text: 'Already have An Account? ',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  children: [
+                    TextSpan(
+                      text: 'Sign In',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AppPallete.gradient2,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:blog_app_revision/core/theme/app_pallete.dart';
+import 'package:blog_app_revision/features/auth/presentation/views/sign_up_view.dart';
 import 'package:blog_app_revision/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:blog_app_revision/features/auth/presentation/widgets/auth_field.dart';
 import 'package:flutter/material.dart';
@@ -41,26 +42,44 @@ class _SignInViewState extends State<SignInView> {
                   Authfield(
                     controller: _passwordController,
                     hintText: 'Password',
+                    obscureText: true,
                   ),
                 ],
               ),
             ),
             AuthGradientButton(
               text: 'Sign In',
-              onTap: () {},
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  // Sign in logic goes here
+                  _formKey.currentState!.reset();
+                }
+              },
             ),
-            RichText(
-              text: TextSpan(
-                text: 'Don\'t have An Account? ',
-                style: Theme.of(context).textTheme.titleMedium,
-                children: [
-                  TextSpan(
-                    text: 'Sign Up',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: AppPallete.gradient2,
-                        fontWeight: FontWeight.bold),
-                  )
-                ],
+            GestureDetector(
+              onTap: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignUpView();
+                    },
+                  ),
+                );
+              },
+              child: RichText(
+                text: TextSpan(
+                  text: 'Don\'t have An Account? ',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  children: [
+                    TextSpan(
+                      text: 'Sign Up',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AppPallete.gradient2,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ),
             ),
           ],

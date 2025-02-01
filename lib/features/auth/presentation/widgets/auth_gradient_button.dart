@@ -16,7 +16,7 @@ class AuthGradientButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -24,9 +24,11 @@ class AuthGradientButton extends StatelessWidget {
             colors: [AppPallete.gradient1, AppPallete.gradient2],
           ),
           borderRadius: BorderRadius.circular(10),
-          color: Colors.blue,
         ),
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
       ),
     );
   }
