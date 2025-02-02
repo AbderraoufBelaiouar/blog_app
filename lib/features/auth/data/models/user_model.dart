@@ -1,4 +1,4 @@
-import 'package:blog_app_revision/features/auth/domain/entities/user.dart';
+import 'package:blog_app_revision/core/common/entities/user.dart';
 
 class UserModel extends User {
   UserModel({
@@ -14,4 +14,12 @@ class UserModel extends User {
       email: json['email'] ?? '',
     );
   }
+  UserModel copyWith({String? id, String? name, String? email}) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+    );
+  }
+
 }
