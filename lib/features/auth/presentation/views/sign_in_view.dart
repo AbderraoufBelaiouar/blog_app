@@ -1,11 +1,11 @@
 import 'package:blog_app_revision/core/common/widgets/loader.dart';
-import 'package:blog_app_revision/core/common/widgets/snack_bar.dart';
+import 'package:blog_app_revision/core/utils/snack_bar.dart';
 import 'package:blog_app_revision/core/theme/app_pallete.dart';
 import 'package:blog_app_revision/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app_revision/features/auth/presentation/views/sign_up_view.dart';
 import 'package:blog_app_revision/features/auth/presentation/widgets/auth_gradient_button.dart';
 import 'package:blog_app_revision/features/auth/presentation/widgets/auth_field.dart';
-import 'package:blog_app_revision/features/blogs/bolgs_view.dart';
+import 'package:blog_app_revision/features/blogs/presentation/views/bolgs_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
