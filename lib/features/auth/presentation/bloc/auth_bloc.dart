@@ -41,7 +41,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
   void _isUserLoggedIn(event, emit) async {
-    emit(AuthLoading());
     final res = await _currentUser(NoParams());
     res.fold((failure) {
       emit(
@@ -55,7 +54,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthSignUp(event, emit) async {
-    emit(AuthLoading());
     final res = await _userSignUp(UserSignUpParams(
         name: event.name, email: event.email, password: event.password));
     res.fold((failure) {
@@ -70,7 +68,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onAuthSignIn(event, emit) async {
-    emit(AuthLoading());
     final res = await _userSignIn(
         UserSignInParams(email: event.email, password: event.password));
     res.fold((failure) {
