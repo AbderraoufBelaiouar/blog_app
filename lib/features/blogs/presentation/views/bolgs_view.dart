@@ -1,8 +1,11 @@
+
 import 'package:blog_app_revision/core/common/widgets/loader.dart';
+import 'package:blog_app_revision/core/theme/app_pallete.dart';
 import 'package:blog_app_revision/core/utils/snack_bar.dart';
 import 'package:blog_app_revision/features/blogs/domain/entities/blog.dart';
 import 'package:blog_app_revision/features/blogs/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app_revision/features/blogs/presentation/views/add_blog_view.dart';
+import 'package:blog_app_revision/features/blogs/presentation/widgets/blog_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +23,7 @@ class _BlogsViewState extends State<BlogsView> {
   void initState() {
     super.initState();
     context.read<BlogBloc>().add(GetBlogsEvent());
+    
   }
 
   @override
@@ -33,11 +37,11 @@ class _BlogsViewState extends State<BlogsView> {
           IconButton(
               icon: Icon(CupertinoIcons.add_circled),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddBlogView(),
-                  ),
+                  ),(route)=>false,
                 );
               })
         ],
@@ -50,13 +54,20 @@ class _BlogsViewState extends State<BlogsView> {
         if (state is BlogLoading) {
           return Loader();
         } else if (state is BlogsDisplaySuccess) {
-          return ListView.builder(
-            itemCount: state.blogs.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: Text(state.blogs[index].content),
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal:8.0),
+            child: ListView.builder(
+              itemCount: state.blogs.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: BlogCard(
+                    blog: state.blogs[index],
+                    color:index % 2==0 ? AppPallete.gradient1: AppPallete.gradient2 ,
+                  ),
+                );
+              },
+            ),
           );
         }
         return Center(child: Text('No blogs found'));

@@ -6,6 +6,7 @@ import 'package:blog_app_revision/core/theme/app_pallete.dart';
 import 'package:blog_app_revision/core/utils/pick_image.dart';
 import 'package:blog_app_revision/core/utils/snack_bar.dart';
 import 'package:blog_app_revision/features/blogs/presentation/bloc/blog_bloc.dart';
+import 'package:blog_app_revision/features/blogs/presentation/views/bolgs_view.dart';
 import 'package:blog_app_revision/features/blogs/presentation/widgets/blog_editor.dart';
 import 'package:blog_app_revision/features/blogs/presentation/widgets/categories_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +57,10 @@ class _AddBlogViewState extends State<AddBlogView> {
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
           if (state is BlogUploadSuccess) {
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => BlogsView()),
+                (route) => false);
           } else if (state is BlogFailure) {
             showSnackBar(context, state.errorMessage);
           }
@@ -67,7 +71,7 @@ class _AddBlogViewState extends State<AddBlogView> {
           }
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Form(
                 key: formKey,
                 child: Column(
