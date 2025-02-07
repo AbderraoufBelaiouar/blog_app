@@ -1,5 +1,6 @@
 import 'package:blog_app_revision/core/error/exception.dart';
 import 'package:blog_app_revision/core/error/failure.dart';
+import 'package:blog_app_revision/core/network/connection_checker.dart';
 import 'package:blog_app_revision/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app_revision/core/common/entities/user.dart';
 import 'package:blog_app_revision/features/auth/domain/repository/auth_repository.dart';
@@ -7,8 +8,9 @@ import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImplementation implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
-
-  AuthRepositoryImplementation(this.authRemoteDataSource);
+  final ConnectionChecker connectionChecker;
+  AuthRepositoryImplementation(
+      this.authRemoteDataSource, this.connectionChecker);
   @override
   Future<Either<Failure, User>> signUpWithEmailAndPassword(
       {required String name,
@@ -33,6 +35,9 @@ class AuthRepositoryImplementation implements AuthRepository {
     Future<User> Function() fn,
   ) async {
     try {
+      if (!await connectionChecker.isConnected) {
+        return left(Failure("No internet connection"));
+      }
       final user = await fn();
       return right(user);
     } on ServerException catch (e) {
@@ -43,12 +48,20 @@ class AuthRepositoryImplementation implements AuthRepository {
   @override
   Future<Either<Failure, User>> currentUser() async {
     try {
-      final user =await authRemoteDataSource.getCurrentUserData();
-      if(user==null){
+      if (!await connectionChecker.isConnected) {
+        final session = authRemoteDataSource.currentUserSession;
+        if (session == null) {
+          return left(Failure("User not logged in"));
+        }
+        return right(User(
+            id: session.user.id, name: '', email: session.user.email ?? ''));
+      }
+      final user = await authRemoteDataSource.getCurrentUserData();
+      if (user == null) {
         return left(Failure("User not logged in"));
       }
       return right(user);
-    }on ServerException catch (e) {
+    } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
