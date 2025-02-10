@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blog_app_revision/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:blog_app_revision/core/theme/app_pallete.dart';
@@ -20,8 +21,7 @@ class _CategoriesListState extends State<CategoriesList> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: ['Business', 'Technology', 'Programming', 'Entertainment']
-            .map(
+        children: Constants.topics.map(
               (e) => Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: GestureDetector(

@@ -1,3 +1,4 @@
+
 import 'package:blog_app_revision/features/blogs/domain/entities/blog.dart';
 
 class BlogModel extends Blog {
@@ -13,7 +14,6 @@ class BlogModel extends Blog {
 
   factory BlogModel.fromMap(Map<String, dynamic> map) {
     return BlogModel(
-      
       id: map['id'] as String,
       title: map['title'] as String,
       content: map['content'] as String,
@@ -21,8 +21,9 @@ class BlogModel extends Blog {
       updatedAt: map['updated_at'] == null
           ? DateTime.now()
           : DateTime.parse(map['updated_at']),
-      posterId: map['poster_id'] as String,
+      posterId: map['poster_id'],
       topics: List<String>.from(map['topics'] ?? [] as List<String>),
+      posterName: map['poster_name'] ?? 'inconnnu'
     );
   }
 
@@ -35,6 +36,7 @@ class BlogModel extends Blog {
       'updated_at': DateTime.now().toIso8601String(),
       'poster_id': posterId,
       'topics': topics,
+      'poster_name': posterName ?? '',
     };
   }
 
@@ -49,7 +51,7 @@ class BlogModel extends Blog {
       List<String>? topics,
       String? posterName}) {
     return BlogModel(
-      posterName:posterName ?? this.posterName,
+      posterName: posterName ?? this.posterName,
       id: id ?? this.id,
       title: title ?? this.title,
       content: content ?? this.content,

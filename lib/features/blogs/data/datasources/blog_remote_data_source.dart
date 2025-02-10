@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:blog_app_revision/core/error/exception.dart';
 import 'package:blog_app_revision/core/error/failure.dart';
 import 'package:blog_app_revision/features/blogs/data/models/blog_model.dart';
-import 'package:blog_app_revision/features/blogs/domain/entities/blog.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class BlogRemoteDataSource {
@@ -11,7 +10,7 @@ abstract interface class BlogRemoteDataSource {
 
   Future<String> uploadBlogImage(
       {required File image, required BlogModel blog});
-  Future<List<Blog>> getBlogs();
+  Future<List<BlogModel>> getBlogs();
 }
 
 class BlogRemoteDataSourceImplementation implements BlogRemoteDataSource {
@@ -43,7 +42,7 @@ class BlogRemoteDataSourceImplementation implements BlogRemoteDataSource {
   }
 
   @override
-  Future<List<Blog>> getBlogs() async {
+  Future<List<BlogModel>> getBlogs() async {
     try {
       final blogs =
           await supabaseClient.from('blogs').select('*,profiles(name)');
@@ -54,7 +53,9 @@ class BlogRemoteDataSourceImplementation implements BlogRemoteDataSource {
             ),
           )
           .toList();
-    } catch (e) {
+    }on PostgrestException catch (e) {
+      throw ServerException(e.message);
+    }catch (e) {
       throw ServerException(e.toString());
     }
   }

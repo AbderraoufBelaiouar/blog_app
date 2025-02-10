@@ -36,7 +36,10 @@ class AuthRemoteDataSourceImplementation implements AuthRemoteDataSource {
             .copyWith(email: currentUserSession!.user.email);
       }
       return null;
-    } catch (e) {
+    } on supabase.AuthException catch (e) {
+      throw  ServerException(e.message);
+    } 
+    catch (e) {
       throw ServerException(e.toString());
     }
   }

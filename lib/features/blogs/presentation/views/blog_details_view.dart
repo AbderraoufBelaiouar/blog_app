@@ -1,6 +1,7 @@
 import 'package:blog_app_revision/core/utils/calculate_reading_time.dart';
 import 'package:blog_app_revision/core/utils/formate_date.dart';
 import 'package:blog_app_revision/features/blogs/domain/entities/blog.dart';
+import 'package:blog_app_revision/features/blogs/presentation/widgets/image_builder.dart';
 import 'package:flutter/material.dart';
 
 class BlogDetailsView extends StatelessWidget {
@@ -38,10 +39,7 @@ class BlogDetailsView extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(blog.imageUrl),
-                ),
+                ImageBuilder(blog: blog),
                 SizedBox(
                   height: 20,
                 ),
